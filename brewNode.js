@@ -237,7 +237,7 @@ class BrewNode {
    * @returns chain length
    * @memberof BrewNode
    */
-  getStarts() {
+  getStats() {
     return {
       blocks: this.chain.getTotalBlocks()
     };
