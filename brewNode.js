@@ -38,12 +38,12 @@ class BrewNode {
   init() {
     this.chain.init();
     this.brewServer = new WebSocket.Server({ port: this._port });
-    this.brewServer.on('connection', (ws, request) => {
+    this.brewServer.on('connection', (ws /* request */) => {
       console.log('Connection in...');
       this._initConnection(ws);
     });
   }
-  
+
   /**
    * Both used as a server and a client method
    * @private
@@ -56,7 +56,7 @@ class BrewNode {
     this._messageHandler(ws);
     this._requestLatestBlock(ws);
     this.brewSockets.push(ws);
-  
+
     ws.on('error', () => {
       this._closeConnection(ws);
     });
@@ -67,7 +67,7 @@ class BrewNode {
 
   /**
    * Handling incoming message data and update the current node as client.
-   * 
+   *
    * Response with data to incoming request.
    * @private
    *
@@ -238,13 +238,13 @@ class BrewNode {
    * @memberof BrewNode
    */
   getStarts() {
-    return ({
+    return {
       blocks: this.chain.getTotalBlocks()
-    });
+    };
   }
 
   /**
-   * Opening WebSocket connection as a client to add peer to construct p2p network.
+   * Opening WebSocket connection with supplied address as a client to add new peer to create a block based on a teammember's name and adding it to the chain.
    * @public
    * @param {string} host
    * @param {number} port
