@@ -251,6 +251,7 @@ class BrewNode {
    * @public
    * @param {string} host
    * @param {number} port
+   * @param {function} callback
    * @memberof BrewNode
    */
   addPeer(
@@ -258,13 +259,13 @@ class BrewNode {
     port = process.env.DEFAULT_WEBSOCKET_CLIENT_PORT
   ) {
     const ws = new WebSocket(`ws://${host}:${port}`);
-    console.log(`A new peer is connected:\n ${ws}`);
-
+    
     ws.on('error', (err) => {
       console.log(err);
     });
-
+    
     ws.on('open', (ws) => {
+      console.log(`A new peer is connected:\n ${port}`);
       this._initConnection(ws);
     });
   }
