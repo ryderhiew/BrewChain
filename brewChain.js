@@ -1,6 +1,12 @@
-// require('node');
+'use strict';
+
 const crypto = require('crypto');
 
+/**
+ * BrewChain
+ *
+ * @class BrewChain
+ */
 class BrewChain {
   constructor() {
     this.chain = [];
@@ -8,6 +14,12 @@ class BrewChain {
     this.genesisBlock = null;
   }
 
+  /**
+   * Main business logic method
+   * @public
+   *
+   * @memberof BrewChain
+   */
   init() {
     this.genesisBlock = {
       index: 0,
@@ -28,6 +40,13 @@ class BrewChain {
       .digest('hex');
   }
 
+  /**
+   * @public
+   *
+   * @param {object} block
+   * @returns boolean
+   * @memberof BrewChain
+   */
   addToChain(block) {
     if (this._checkNewBlockIsValid(block, this.currentBlock)) {
       this.chain.push(block);
@@ -53,6 +72,13 @@ class BrewChain {
     return this._createHash(block) === block.hash;
   }
 
+  /**
+   * @public
+   *
+   * @param {array} newChain
+   * @returns boolean
+   * @memberof BrewChain
+   */
   checkNewChainIsValid(newChain) {
     if (this._createHash(newChain[0] !== this.genesisBlock.hash)) {
       return false;
@@ -79,6 +105,13 @@ class BrewChain {
     return true;
   }
 
+  /**
+   * @public
+   *
+   * @param {string} data
+   * @returns newBlock
+   * @memberof BrewChain
+   */
   createBlock(data) {
     let newBlock = {
       timestamp: new Date().getTime(),
@@ -103,18 +136,42 @@ class BrewChain {
     }
   }
 
+  /**
+   * @public
+   *
+   * @returns currentBlock
+   * @memberof BrewChain
+   */
   getLatestBlock() {
     return this.currentBlock;
   }
 
+  /**
+   * @public
+   *
+   * @returns chain length
+   * @memberof BrewChain
+   */
   getTotalBlocks() {
     return this.chain.length;
   }
 
+  /**
+   * @public
+   *
+   * @returns chain
+   * @memberof BrewChain
+   */
   getChain() {
     return this.chain;
   }
 
+  /**
+   * @public
+   *
+   * @param {object} newChain
+   * @memberof BrewChain
+   */
   replaceChain(newChain) {
     this.chain = newChain;
     this.currentBlock = this.chain[this.chain.length - 1];

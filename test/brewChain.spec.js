@@ -1,3 +1,5 @@
+'use strict';
+
 const BrewChain = require('../brewChain');
 
 const myBrew = new BrewChain();
