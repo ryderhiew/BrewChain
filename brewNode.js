@@ -31,13 +31,16 @@ class BrewNode {
   }
 
   /**
-   * Main business logic method
+   * Main business logic method, starting a WebSocket Server.
    * @public
    * @memberof BrewNode
    */
-  init() {
+  init(callback) {
     this.chain.init();
     this.brewServer = new WebSocket.Server({ port: this._port });
+    if (callback !== undefined) {
+      this.brewServer.on('listening', callback);
+    }
     this.brewServer.on('connection', (ws /* request */) => {
       console.log('Connection in...');
       this._initConnection(ws);
@@ -250,8 +253,12 @@ class BrewNode {
    * @param {number} port
    * @memberof BrewNode
    */
-  addPeer(host, port) {
+  addPeer(
+    host = '127.0.0.1',
+    port = process.env.DEFAULT_WEBSOCKET_CLIENT_PORT
+  ) {
     const ws = new WebSocket(`ws://${host}:${port}`);
+    console.log(`A new peer is connected:\n ${ws}`);
 
     ws.on('error', (err) => {
       console.log(err);
