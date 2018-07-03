@@ -1,13 +1,11 @@
+// require('node');
 const crypto = require('crypto');
 
 class BrewChain {
-  constructor(data, block, newChain) {
+  constructor() {
     this.chain = [];
     this.currentBlock = null;
     this.genesisBlock = null;
-    this.data = data;
-    this.block = block;
-    this.newChain = newChain;
   }
 
   init() {
@@ -18,8 +16,8 @@ class BrewChain {
       previousHash: '-1',
       nonce: 0
     };
-    this.genesisBlock.hash = this._createHash(genesisBlock);
-    this.chain.push(genesisBlock);
+    this.genesisBlock.hash = this._createHash(this.genesisBlock);
+    this.chain.push(this.genesisBlock);
     this.currentBlock = this.genesisBlock;
   }
 
@@ -52,7 +50,7 @@ class BrewChain {
   }
 
   _hashIsValid(block) {
-    return this._createHash(block) == block.hash;
+    return this._createHash(block) === block.hash;
   }
 
   checkNewChainIsValid(newChain) {
@@ -84,9 +82,9 @@ class BrewChain {
   createBlock(data) {
     let newBlock = {
       timestamp: new Date().getTime(),
-      data: data,
-      index: currentBlock.index + 1,
-      previousHash: currentBlock.hash,
+      data,
+      index: this.currentBlock.index + 1,
+      previousHash: this.currentBlock.hash,
       nonce: 0
     };
     newBlock = this._proofOfWork(newBlock);
