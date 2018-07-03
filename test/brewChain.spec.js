@@ -1,4 +1,4 @@
-const BrewChain = require('./brewChain');
+const BrewChain = require('../brewChain');
 
 const myBrew = new BrewChain();
 
