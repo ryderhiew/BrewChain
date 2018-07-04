@@ -41,7 +41,7 @@ class BrewNode {
     if (callback !== undefined) {
       this.brewServer.on('listening', callback);
     }
-    this.brewServer.on('connection', (ws /* request */) => {
+    this.brewServer.on('connection', (ws /* , request */) => {
       console.log('Connection in...');
       this._initConnection(ws);
     });
