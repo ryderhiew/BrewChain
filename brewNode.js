@@ -169,20 +169,21 @@ class BrewNode {
     let currentTopBlock = this.chain.getLatestBlock();
 
     // Make sure it is not tha same or older chain.
-    if (block.index > currentTopBlock.index) {
-      console.log('update needed');
+    if (block.index <= currentTopBlock.index) {
+      console.log('No update needed');
+      return;
+    }
+    
+    // Is claiming to be the next of the chain
+    if (block.previousHash === currentTopBlock.hash) {
+      // Adding the top block to our chain
+      this.chain.addToChain(block);
 
-      // Is claiming to be the next of the chain
-      if (block.previousHash === currentTopBlock.hash) {
-        // Adding the top block to our chain
-        this.chain.addToChain(block);
-
-        console.log('New block added:\n', this.chain.getLatestBlock());
-      } else {
-        // If it's ahead, we are therefore a little behind, request the whole chain
-        console.log('Requesting chain.');
-        this.broadcastMessage(this.msgEvents.REQUEST_CHAIN, 'Chain needed!');
-      }
+      console.log('New block added:\n', this.chain.getLatestBlock());
+    } else {
+      // If it's ahead, we are therefore a little behind, request the whole chain
+      console.log('Requesting chain.');
+      this.broadcastMessage(this.msgEvents.REQUEST_CHAIN, 'Chain needed!');
     }
   }
 
