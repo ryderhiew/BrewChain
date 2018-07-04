@@ -142,7 +142,7 @@ class BrewChain {
    * @returns currentBlock
    * @memberof BrewChain
    */
-  getLatestBlock() {
+  get latestBlock() {
     return this.currentBlock;
   }
 
@@ -152,7 +152,7 @@ class BrewChain {
    * @returns chain length
    * @memberof BrewChain
    */
-  getTotalBlocks() {
+  get totalBlocks() {
     return this.chain.length;
   }
 
@@ -162,7 +162,7 @@ class BrewChain {
    * @returns chain
    * @memberof BrewChain
    */
-  getChain() {
+  get blockChain() {
     return this.chain;
   }
 

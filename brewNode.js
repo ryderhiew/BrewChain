@@ -126,7 +126,7 @@ class BrewNode {
     ws.send(
       JSON.stringify({
         event: this.msgEvents.CHAIN,
-        message: this.chain.getChain()
+        message: this.chain.blockChain
       })
     );
   }
@@ -142,7 +142,7 @@ class BrewNode {
     ws.send(
       JSON.stringify({
         event: this.msgEvents.BLOCK,
-        message: this.chain.getLatestBlock()
+        message: this.chain.latestBlock
       })
     );
   }
@@ -166,7 +166,7 @@ class BrewNode {
    * @memberof _messageHandler
    */
   _processedReceivedBlock(block) {
-    let currentTopBlock = this.chain.getLatestBlock();
+    let currentTopBlock = this.chain.latestBlock;
 
     // Make sure it is not tha same or older chain.
     if (block.index <= currentTopBlock.index) {
@@ -179,7 +179,7 @@ class BrewNode {
       // Adding the top block to our chain
       this.chain.addToChain(block);
 
-      console.log('New block added:\n', this.chain.getLatestBlock());
+      console.log('New block added:\n', this.chain.latestBlock);
     } else {
       // If it's ahead, we are therefore a little behind, request the whole chain
       console.log('Requesting chain.');
@@ -198,7 +198,7 @@ class BrewNode {
     let newChain = blocks.sort((block1, block2) => block1.index - block2.index);
 
     if (
-      newChain.length > this.chain.getTotalBlocks() &&
+      newChain.length > this.chain.totalBlocks &&
       this.chain.checkNewChainIsValid(newChain)
     ) {
       this.chain.replaceChain(newChain);
@@ -243,7 +243,7 @@ class BrewNode {
    */
   getStats() {
     return {
-      blocks: this.chain.getTotalBlocks()
+      blocks: this.chain.totalBlocks
     };
   }
 
