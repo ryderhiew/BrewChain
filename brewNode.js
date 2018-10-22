@@ -26,7 +26,7 @@ class BrewNode {
       REQUEST_CHAIN: 'REQUEST_CHAIN',
       REQUEST_BLOCK: 'REQUEST_BLOCK',
       BLOCK: 'BLOCK',
-      CHAIN: 'CHAIN'
+      CHAIN: 'CHAIN',
     };
   }
 
@@ -87,7 +87,7 @@ class BrewNode {
        */
       let msg;
       try {
-        return (msg = JSON.parse(data));
+        msg = JSON.parse(data);
       } catch (err) {
         throw err;
       }
@@ -126,7 +126,7 @@ class BrewNode {
     ws.send(
       JSON.stringify({
         event: this.msgEvents.CHAIN,
-        message: this.chain.blockChain
+        message: this.chain.blockChain,
       })
     );
   }
@@ -142,7 +142,7 @@ class BrewNode {
     ws.send(
       JSON.stringify({
         event: this.msgEvents.BLOCK,
-        message: this.chain.latestBlock
+        message: this.chain.latestBlock,
       })
     );
   }
@@ -173,7 +173,7 @@ class BrewNode {
       console.log('No update needed');
       return;
     }
-    
+
     // Is claiming to be the next of the chain
     if (block.previousHash === currentTopBlock.hash) {
       // Adding the top block to our chain
@@ -243,7 +243,7 @@ class BrewNode {
    */
   getStats() {
     return {
-      blocks: this.chain.totalBlocks
+      blocks: this.chain.totalBlocks,
     };
   }
 
@@ -260,11 +260,11 @@ class BrewNode {
     port = process.env.DEFAULT_WEBSOCKET_CLIENT_PORT
   ) {
     const ws = new WebSocket(`ws://${host}:${port}`);
-    
+
     ws.on('error', (err) => {
       console.log(err);
     });
-    
+
     ws.on('open', (ws) => {
       console.log(`A new peer is connected:\n ${port}`);
       this._initConnection(ws);
